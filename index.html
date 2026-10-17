@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offlip — quit pouches, keep the money</title>
+  <meta name="description" content="Offlip tracks every dollar you don't spend on nicotine, live, to the cent. For adults 18+." />
+  <meta property="og:title" content="Offlip — quit pouches, keep the money" />
+  <meta property="og:description" content="See what your habit really costs, then watch the money you keep tick up." />
+  <meta name="theme-color" content="#F6F2E9" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #F6F2E9;
+      --paper: #FFFFFF;
+      --raised: #EFEADF;
+      --border: #E2DCCD;
+      --text: #16150F;
+      --muted: #6B675C;
+      --paper-muted: #77736A;
+      --accent: #0B8F4D;
+      --highlight: #D7FF3C;
+      --rose: #D93F45;
+      --display: 'Archivo Black', system-ui, sans-serif;
+      --body: 'Inter', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--body); }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+    a { color: inherit; }
+
+    header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+    .wordmark { font: 22px var(--display); letter-spacing: -0.5px; text-decoration: none; }
+    .nav-cta { font: 600 13px var(--mono); letter-spacing: 1px; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--text); padding-bottom: 2px; }
+
+    .hero > *, .two > * { min-width: 0; }
+    .hero { display: grid; gap: 40px; padding: 32px 0 64px; align-items: center; }
+    @media (min-width: 880px) { .hero { grid-template-columns: 1.05fr 0.95fr; padding-top: 56px; } }
+    .eyebrow { font: 600 12px var(--mono); letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
+    h1 { font: clamp(40px, 9vw, 72px)/1.02 var(--display); letter-spacing: -2px; margin: 0 0 20px; }
+    h1 mark { background: linear-gradient(transparent 55%, var(--highlight) 55%, var(--highlight) 92%, transparent 92%); color: inherit; padding: 0 2px; }
+    .lede { font-size: 18px; color: var(--muted); max-width: 30em; margin: 0 0 28px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 14px; border: 0; background: var(--accent); color: #fff; font: 600 16px var(--body); text-decoration: none; cursor: pointer; }
+    .btn:hover { filter: brightness(1.06); }
+    .btn:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+    .btn[aria-disabled="true"], .btn:disabled { background: var(--raised); color: var(--muted); cursor: not-allowed; filter: none; }
+    .fine { font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+    /* Receipt */
+    .receipt { position: relative; background: var(--paper); padding: 28px 24px 30px; box-shadow: 0 18px 40px -22px rgba(22,21,15,.35); font-family: var(--mono); }
+    .receipt::before, .receipt::after { content: ''; position: absolute; left: 0; right: 0; height: 10px;
+      background: radial-gradient(circle at 6px 0, transparent 5px, var(--paper) 5.5px) repeat-x; background-size: 12px 10px; }
+    .receipt::before { top: -10px; transform: scaleY(-1); }
+    .receipt::after { bottom: -10px; }
+    .r-head { font-size: 11px; letter-spacing: 1.5px; color: var(--paper-muted); text-transform: uppercase; margin: 0 0 18px; }
+    .line { display: flex; align-items: baseline; gap: 8px; font-size: 14px; margin: 10px 0; }
+    .line .lbl { white-space: nowrap; }
+    .line .dots { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; color: var(--paper-muted); }
+    .line .dots::before { content: '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .'; }
+    .line .val { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .rule { border: 0; border-top: 1px dashed var(--border); margin: 18px 0; }
+    .total-lbl { font-size: 11px; letter-spacing: 1.5px; color: var(--paper-muted); text-transform: uppercase; margin: 0; }
+    .total { font: clamp(44px, 12vw, 64px)/1.05 var(--display); letter-spacing: -2px; margin: 6px 0 4px; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .total span { background: var(--highlight); padding: 0 6px; color: var(--text); }
+    .rank-note { font-size: 13px; color: var(--paper-muted); margin: 10px 0 0; }
+
+    /* Calculator controls */
+    .controls { display: grid; gap: 12px; margin-bottom: 8px; }
+    .ctl { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; }
+    .ctl label { color: var(--paper-muted); text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+    .stepper { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .stepper button { width: 40px; height: 40px; border: 0; background: var(--raised); font: 600 18px var(--mono); cursor: pointer; color: var(--text); }
+    .stepper output { min-width: 72px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    section { padding: 56px 0; border-top: 1px solid var(--border); }
+    h2 { font: clamp(28px, 6vw, 40px)/1.1 var(--display); letter-spacing: -1px; margin: 0 0 28px; max-width: 18em; }
+    .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 28px; }
+    @media (min-width: 760px) { .steps { grid-template-columns: 1fr 1fr; gap: 36px 56px; } }
+    .steps li { display: grid; grid-template-columns: 44px 1fr; gap: 4px 12px; }
+    .steps .n { font: 600 14px var(--mono); color: var(--accent); grid-row: span 2; padding-top: 3px; }
+    .steps h3 { font: 600 18px var(--body); margin: 0; }
+    .steps p { margin: 0; color: var(--muted); }
+
+    .ladder { max-width: 520px; }
+    .ladder .line.reached .lbl { color: var(--accent); }
+
+    .two { display: grid; gap: 40px; }
+    @media (min-width: 880px) { .two { grid-template-columns: 1fr 1fr; align-items: start; } }
+
+    .join { background: var(--text); color: var(--bg); border-radius: 20px; padding: 36px 24px; border: 0; margin: 0 0 56px; }
+    @media (min-width: 760px) { .join { padding: 48px; } }
+    .join h2 { color: var(--bg); margin-bottom: 12px; }
+    .join p { color: #BDB7A8; margin: 0 0 24px; max-width: 34em; }
+    .check { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 20px; cursor: pointer; }
+    .check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--highlight); flex: none; }
+    .join .btn { background: var(--highlight); color: var(--text); }
+    .join .btn[aria-disabled="true"] { background: #3A3830; color: #8E897C; }
+
+    footer { padding: 32px 0 48px; font-size: 13px; color: var(--muted); }
+    footer p { margin: 0 0 12px; max-width: 60em; }
+    footer .help { font-family: var(--mono); font-size: 12px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .tick { animation: tick .35s ease-out; }
+      @keyframes tick { from { opacity: .4; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="wordmark" href="#top" aria-label="Offlip home">offlip</a>
+      <a class="nav-cta" href="#join">Early access</a>
+    </header>
+
+    <main id="top">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">The quit receipt</p>
+          <h1>Quit pouches.<br /><mark>Keep the money.</mark></h1>
+          <p class="lede">Offlip counts every dollar you don't spend on nicotine, live, to the cent. Run the numbers on your habit, then watch them come back to you.</p>
+          <a class="btn" href="#join">Get early access</a>
+          <p class="fine">Free to start. For adults 18+. Your data stays on your phone.</p>
+        </div>
+
+        <div class="receipt" aria-labelledby="calc-title">
+          <p class="r-head" id="calc-title">What your habit costs · <span id="today"></span></p>
+          <div class="controls">
+            <div class="ctl">
+              <label for="perDay">Pouches a day</label>
+              <span class="stepper"><button type="button" data-step="perDay:-1" aria-label="Fewer pouches a day">−</button><output id="perDay" aria-live="polite">8</output><button type="button" data-step="perDay:1" aria-label="More pouches a day">+</button></span>
+            </div>
+            <div class="ctl">
+              <label for="price">Price per can</label>
+              <span class="stepper"><button type="button" data-step="price:-0.25" aria-label="Lower price">−</button><output id="price" aria-live="polite">$5.50</output><button type="button" data-step="price:0.25" aria-label="Higher price">+</button></span>
+            </div>
+            <div class="ctl">
+              <label for="perCan">Pouches per can</label>
+              <span class="stepper"><button type="button" data-step="perCan:-1" aria-label="Fewer pouches per can">−</button><output id="perCan" aria-live="polite">15</output><button type="button" data-step="perCan:1" aria-label="More pouches per can">+</button></span>
+            </div>
+          </div>
+          <hr class="rule" />
+          <div class="line"><span class="lbl">Per day</span><span class="dots"></span><span class="val" id="day">$2.93</span></div>
+          <div class="line"><span class="lbl">Per month</span><span class="dots"></span><span class="val" id="month">$89</span></div>
+          <div class="line"><span class="lbl">Cans per year</span><span class="dots"></span><span class="val" id="cans">195</span></div>
+          <hr class="rule" />
+          <p class="total-lbl">Kept in your first year off</p>
+          <p class="total" id="year"><span>$1,071</span></p>
+          <p class="rank-note" id="rankNote">That's rank 08, Four Figures.</p>
+        </div>
+      </div>
+
+      <section aria-labelledby="how">
+        <h2 id="how">Built around the one number that keeps you going.</h2>
+        <ol class="steps">
+          <li><span class="n">01</span><h3>Money kept, live</h3><p>Your total ticks up every second you stay off it. Not days. Dollars.</p></li>
+          <li><span class="n">02</span><h3>One tap when a craving hits</h3><p>A five-minute timer starts instantly. Cravings often pass in a few minutes, whether or not you use.</p></li>
+          <li><span class="n">03</span><h3>A slip doesn't erase you</h3><p>Log it honestly. Your savings, best streak and milestones all stay. Only the current streak restarts.</p></li>
+          <li><span class="n">04</span><h3>A receipt worth sharing</h3><p>Every milestone prints a receipt you can post. Nothing is shared unless you send it.</p></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="ranks">
+        <div class="two">
+          <div>
+            <h2 id="ranks">Ranks named after what the money buys.</h2>
+            <p class="lede">Each rank is based on the most you've ever kept, so a slip never costs you one. Hit a new rank and Offlip stamps it.</p>
+          </div>
+          <div class="receipt ladder" aria-label="Rank ladder">
+            <p class="r-head">Rank ladder</p>
+            <div id="ladder"></div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="private">
+        <h2 id="private">No account. No ads. No tracking.</h2>
+        <ol class="steps">
+          <li><span class="n">01</span><h3>Stays on your phone</h3><p>Your plan, streak and slips are stored on your device. Back them up to a file whenever you want.</p></li>
+          <li><span class="n">02</span><h3>Free to start</h3><p>The tracker, craving timer and receipts are free. Premium adds deeper insights, and it's optional.</p></li>
+        </ol>
+      </section>
+
+      <section class="join" id="join" aria-labelledby="join-title">
+        <h2 id="join-title">Get early access.</h2>
+        <p>We let people in by waves. Earlier spots hear first. One email on launch day, no spam, unsubscribe any time.</p>
+        <label class="check"><input type="checkbox" id="adult" /> <span>I'm 18 or older.</span></label>
+        <a class="btn" id="joinBtn" href="#join" aria-disabled="true" role="button">Save my spot</a>
+        <p class="fine" id="joinNote" style="color:#8E897C">Tick the box to continue.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Offlip is a self-tracking and motivation tool for adults 18+. It is not medical advice and does not diagnose, treat or cure any condition. Talk to a doctor or pharmacist about quit medications. Not affiliated with any tobacco brand.</p>
+      <p class="help">Free support: <a href="https://www.exprogram.com" rel="noopener">exprogram.com</a> · Text QUIT to 47848 · In crisis? Call or text 988.</p>
+      <p>© <span id="year-copy"></span> Offlip</p>
+    </footer>
+  </div>
+
+  <script>
+    // Paste the Brevo form's share link here once the form has its 18+ checkbox and captcha.
+    // While it's empty, the button stays disabled and nothing is collected.
+    const WAITLIST_URL = '';
+
+    // Same ladder and cost formula as the app (src/data/ranks.ts, src/lib/plan.ts).
+    const RANKS = [['Fresh Start', 0], ['Pocket Change', 5], ['Snack Fund', 20], ['Takeout Money', 50], ['Hundred Club', 100],
+      ['Concert Ticket', 250], ['Weekend Away', 500], ['Four Figures', 1000], ['Flight Mode', 2500], ['Main Character Money', 5000]];
+    const state = { perDay: 8, price: 5.5, perCan: 15 };
+    const limits = { perDay: [1, 60], price: [0.25, 30], perCan: [1, 40] };
+    const $ = (id) => document.getElementById(id);
+    const money = (n, cents) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0 });
+
+    function rankFor(amount) {
+      let idx = 0;
+      RANKS.forEach(([, t], i) => { if (amount >= t) idx = i; });
+      return idx;
+    }
+
+    function render() {
+      const daily = (state.perDay * state.price) / state.perCan;
+      const year = daily * 365;
+      $('perDay').textContent = state.perDay;
+      $('price').textContent = money(state.price, true);
+      $('perCan').textContent = state.perCan;
+      $('day').textContent = money(daily, true);
+      $('month').textContent = money(Math.round(daily * 30));
+      $('cans').textContent = Math.round((state.perDay * 365) / state.perCan).toLocaleString('en-US');
+      const total = $('year');
+      total.innerHTML = '<span>' + money(Math.round(year)) + '</span>';
+      total.classList.remove('tick'); void total.offsetWidth; total.classList.add('tick');
+      const r = rankFor(year);
+      $('rankNote').textContent = "That's rank " + String(r + 1).padStart(2, '0') + ', ' + RANKS[r][0] + '.';
+      $('ladder').innerHTML = RANKS.map(([name, t], i) =>
+        '<div class="line' + (i <= r ? ' reached' : '') + '"><span class="lbl">' + String(i + 1).padStart(2, '0') + ' ' + name +
+        '</span><span class="dots"></span><span class="val">' + money(t) + '</span></div>').join('');
+    }
+
+    document.querySelectorAll('[data-step]').forEach((btn) => btn.addEventListener('click', () => {
+      const [key, step] = btn.dataset.step.split(':');
+      const [min, max] = limits[key];
+      state[key] = Math.min(max, Math.max(min, Math.round((state[key] + Number(step)) * 100) / 100));
+      render();
+    }));
+
+    const adult = $('adult'), joinBtn = $('joinBtn'), joinNote = $('joinNote');
+    function syncJoin() {
+      const ready = adult.checked && WAITLIST_URL;
+      joinBtn.setAttribute('aria-disabled', ready ? 'false' : 'true');
+      joinBtn.href = ready ? WAITLIST_URL : '#join';
+      joinNote.textContent = !WAITLIST_URL ? 'The waitlist opens soon.' : adult.checked ? 'Opens the signup form.' : 'Tick the box to continue.';
+    }
+    adult.addEventListener('change', syncJoin);
+    joinBtn.addEventListener('click', (e) => { if (joinBtn.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
+
+    const now = new Date();
+    $('today').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+    $('year-copy').textContent = now.getFullYear();
+    render();
+    syncJoin();
+  </script>
+</body>
+</html>
