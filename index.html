@@ -98,8 +98,6 @@
     @media (min-width: 760px) { .join { padding: 48px; } }
     .join h2 { color: var(--bg); margin-bottom: 12px; }
     .join p { color: #BDB7A8; margin: 0 0 24px; max-width: 34em; }
-    .check { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 20px; cursor: pointer; }
-    .check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--highlight); flex: none; }
     .join .btn { background: var(--highlight); color: var(--text); }
     .join .btn[aria-disabled="true"] { background: #3A3830; color: #8E897C; }
 
@@ -191,9 +189,8 @@
       <section class="join" id="join" aria-labelledby="join-title">
         <h2 id="join-title">Get early access.</h2>
         <p>We let people in by waves. Earlier spots hear first. One email on launch day, no spam, unsubscribe any time.</p>
-        <label class="check"><input type="checkbox" id="adult" /> <span>I'm 18 or older.</span></label>
-        <a class="btn" id="joinBtn" href="#join" aria-disabled="true" role="button">Save my spot</a>
-        <p class="fine" id="joinNote" style="color:#8E897C">Tick the box to continue.</p>
+        <a class="btn" id="joinBtn" href="#join" aria-disabled="true" role="button" rel="noopener">Save my spot</a>
+        <p class="fine" id="joinNote" style="color:#8E897C">For adults 18+. Takes 10 seconds.</p>
       </section>
     </main>
 

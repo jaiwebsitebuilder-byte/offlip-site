@@ -1,7 +1,6 @@
 'use strict';
-// Paste the Brevo form's share link here once the form has its 18+ checkbox and captcha.
-// While it's empty, the button stays disabled and nothing is collected.
-const WAITLIST_URL = '';
+// Brevo signup form (email + required 18+ checkbox, no confirmation email). Empty = button disabled.
+const WAITLIST_URL = 'https://fc2c06e4.sibforms.com/serve/MUIFABc9jkTiEAo8xBX48nmHnb0_x6LXKOb6LF8urFApCm8b_-ikc8AUyVmmlLUtTw3gH6LCkSkqYy1dZGY0VBXAUdayA4YTBVgbRt1UNRwsMa5OcNJObkDw2uK4iDjxY7Whkx_bFpT3nh4P89mCnvtuZAW2P-lbMgP-QNfukcTFCm5uyQnvWINUOar8dtlHKw1DJzOr2KdzLYttGQ==';
 
 // Same ladder and cost formula as the app (src/data/ranks.ts, src/lib/plan.ts).
 const RANKS = [['Fresh Start', 0], ['Pocket Change', 5], ['Snack Fund', 20], ['Takeout Money', 50], ['Hundred Club', 100],
@@ -43,15 +42,14 @@ document.querySelectorAll('[data-step]').forEach((btn) => btn.addEventListener('
   render();
 }));
 
-const adult = $('adult'), joinBtn = $('joinBtn'), joinNote = $('joinNote');
+const joinBtn = $('joinBtn'), joinNote = $('joinNote');
 function syncJoin() {
-  // Only ever link to a real https address (never javascript: or a typo).
-  const ready = adult.checked && /^https:\/\/[^\s"'<>]+$/.test(WAITLIST_URL);
+  // Only ever link to a real https address (never javascript: or a typo). The form itself asks 18+.
+  const ready = /^https:\/\/[^\s"'<>]+$/.test(WAITLIST_URL);
   joinBtn.setAttribute('aria-disabled', ready ? 'false' : 'true');
   joinBtn.href = ready ? WAITLIST_URL : '#join';
-  joinNote.textContent = !WAITLIST_URL ? 'The waitlist opens soon.' : adult.checked ? 'Opens the signup form.' : 'Tick the box to continue.';
+  if (!ready) joinNote.textContent = 'The waitlist opens soon.';
 }
-adult.addEventListener('change', syncJoin);
 joinBtn.addEventListener('click', (e) => { if (joinBtn.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
 
 const now = new Date();
