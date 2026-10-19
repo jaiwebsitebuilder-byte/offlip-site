@@ -5,9 +5,9 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Offlip — quit pouches, keep the money</title>
+  <title>Offlip — quit nicotine, keep the money</title>
   <meta name="description" content="Offlip tracks every dollar you don't spend on nicotine, live, to the cent. For adults 18+." />
-  <meta property="og:title" content="Offlip — quit pouches, keep the money" />
+  <meta property="og:title" content="Offlip — quit nicotine, keep the money" />
   <meta property="og:description" content="See what your habit really costs, then watch the money you keep tick up." />
   <meta name="theme-color" content="#F6F2E9" />
   <link rel="icon" type="image/png" href="favicon.png" />
@@ -75,6 +75,10 @@
 
     /* Calculator controls */
     .controls { display: grid; gap: 12px; margin-bottom: 8px; }
+    .ctl[hidden] { display: none; }
+    .seg { display: flex; gap: 3px; padding: 3px; margin: 0 0 14px; background: var(--raised); border-radius: 10px; }
+    .seg button { flex: 1; min-height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--text); font: 600 13px var(--body); cursor: pointer; }
+    .seg button[aria-checked="true"] { background: var(--text); color: var(--bg); }
     .ctl { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; }
     .ctl label { color: var(--paper-muted); text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
     .stepper { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
@@ -147,6 +151,8 @@
       .r-head { margin-bottom: 12px; }
       .controls { gap: 8px; }
       .stepper button { width: 36px; height: 34px; }
+      .seg { margin-bottom: 10px; }
+      .seg button { min-height: 30px; }
       .line { margin: 6px 0; }
       .rule { margin: 12px 0; }
       .total { font-size: clamp(40px, 7vh, 60px); }
@@ -177,8 +183,8 @@
       <div class="hero">
         <div>
           <p class="eyebrow">The quit receipt</p>
-          <h1>Quit pouches.<br /><mark>Keep the money.</mark></h1>
-          <p class="lede">Offlip counts every dollar you don't spend on nicotine, live, to the cent. Run the numbers on your habit, then watch them come back to you.</p>
+          <h1>Quit nicotine.<br /><mark>Keep the money.</mark></h1>
+          <p class="lede">Pouches, vapes or cigarettes: Offlip counts every dollar you don't spend on nicotine, live, to the cent. Run the numbers on your habit, then watch them come back to you.</p>
           <a class="btn" href="#join">Get early access</a>
           <p class="fine">Free to start. For adults 18+. Your data stays on your phone.</p>
         </div>
@@ -191,24 +197,29 @@
         </div>
         <div class="receipt" aria-labelledby="calc-title">
           <p class="r-head" id="calc-title">What your habit costs · <span id="today"></span></p>
+          <div class="seg" role="radiogroup" aria-label="What are you quitting?">
+            <button type="button" role="radio" aria-checked="true" data-product="pouches">Pouches</button>
+            <button type="button" role="radio" aria-checked="false" data-product="vape">Vapes</button>
+            <button type="button" role="radio" aria-checked="false" data-product="cigarettes">Cigarettes</button>
+          </div>
           <div class="controls">
             <div class="ctl">
-              <label for="perDay">Pouches a day</label>
+              <label for="perDay" id="lblPerDay">Pouches a day</label>
               <span class="stepper"><button type="button" data-step="perDay:-1" aria-label="Fewer pouches a day">−</button><output id="perDay" aria-live="polite">8</output><button type="button" data-step="perDay:1" aria-label="More pouches a day">+</button></span>
             </div>
-            <div class="ctl">
-              <label for="price">Price per can</label>
+            <div class="ctl" id="rowPrice">
+              <label for="price" id="lblPrice">Price per can</label>
               <span class="stepper"><button type="button" data-step="price:-0.25" aria-label="Lower price">−</button><output id="price" aria-live="polite">$5.50</output><button type="button" data-step="price:0.25" aria-label="Higher price">+</button></span>
             </div>
-            <div class="ctl">
-              <label for="perCan">Pouches per can</label>
+            <div class="ctl" id="rowPer">
+              <label for="perCan" id="lblPerCan">Pouches per can</label>
               <span class="stepper"><button type="button" data-step="perCan:-1" aria-label="Fewer pouches per can">−</button><output id="perCan" aria-live="polite">15</output><button type="button" data-step="perCan:1" aria-label="More pouches per can">+</button></span>
             </div>
           </div>
           <hr class="rule" />
           <div class="line"><span class="lbl">Per day</span><span class="dots"></span><span class="val" id="day">$2.93</span></div>
           <div class="line"><span class="lbl">Per month</span><span class="dots"></span><span class="val" id="month">$89</span></div>
-          <div class="line"><span class="lbl">Cans per year</span><span class="dots"></span><span class="val" id="cans">195</span></div>
+          <div class="line"><span class="lbl" id="lblCans">Cans per year</span><span class="dots"></span><span class="val" id="cans">195</span></div>
           <hr class="rule" />
           <p class="total-lbl">Kept in your first year off</p>
           <p class="total" id="year"><span>$1,071</span></p>

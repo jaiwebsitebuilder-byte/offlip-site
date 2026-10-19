@@ -5,8 +5,17 @@ const WAITLIST_URL = 'https://fc2c06e4.sibforms.com/serve/MUIFABc9jkTiEAo8xBX48n
 // Same ladder and cost formula as the app (src/data/ranks.ts, src/lib/plan.ts).
 const RANKS = [['Fresh Start', 0], ['Pocket Change', 5], ['Snack Fund', 20], ['Takeout Money', 50], ['Hundred Club', 100],
   ['Concert Ticket', 250], ['Weekend Away', 500], ['Four Figures', 1000], ['Flight Mode', 2500], ['Main Character Money', 5000]];
-const state = { perDay: 8, price: 5.5, perCan: 15 };
+// Same cost formula as the app: pouches and cigarettes are priced per unit, vapes by weekly spend.
+const DEFAULTS = { pouches: { perDay: 8, price: 5.5, perCan: 15 }, cigarettes: { perDay: 10, price: 9, perCan: 20 }, vape: { perDay: 25, price: 0, perCan: 0 } };
+const COPY = {
+  pouches: { perDay: 'Pouches a day', price: 'Price per can', perCan: 'Pouches per can', packs: 'Cans per year' },
+  cigarettes: { perDay: 'Cigarettes a day', price: 'Price per pack', perCan: 'Cigarettes per pack', packs: 'Packs per year' },
+  vape: { perDay: 'Spent a week', price: '', perCan: '', packs: 'Per week' },
+};
+const state = JSON.parse(JSON.stringify(DEFAULTS));
+let product = 'pouches';
 const limits = { perDay: [1, 60], price: [0.25, 30], perCan: [1, 40] };
+const VAPE_WEEKLY = [5, 300];
 const $ = (id) => document.getElementById(id);
 const money = (n, cents) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0 });
 
@@ -17,14 +26,26 @@ function rankFor(amount) {
 }
 
 function render() {
-  const daily = (state.perDay * state.price) / state.perCan;
+  const s = state[product], c = COPY[product], vape = product === 'vape';
+  const daily = vape ? s.perDay / 7 : (s.perDay * s.price) / s.perCan;
   const year = daily * 365;
-  $('perDay').textContent = state.perDay;
-  $('price').textContent = money(state.price, true);
-  $('perCan').textContent = state.perCan;
+  $('lblPerDay').textContent = c.perDay;
+  $('lblPrice').textContent = c.price;
+  $('lblPerCan').textContent = c.perCan;
+  $('rowPrice').hidden = vape;
+  $('rowPer').hidden = vape;
+  $('perDay').textContent = vape ? money(s.perDay) : s.perDay;
+  $('price').textContent = money(s.price, true);
+  $('perCan').textContent = s.perCan;
+  document.querySelectorAll('[data-step]').forEach((btn) => {
+    const [key, step] = btn.dataset.step.split(':');
+    const label = key === 'perDay' ? c.perDay : key === 'price' ? c.price : c.perCan;
+    btn.setAttribute('aria-label', (Number(step) < 0 ? 'Decrease ' : 'Increase ') + label.toLowerCase());
+  });
   $('day').textContent = money(daily, true);
   $('month').textContent = money(Math.round(daily * 30));
-  $('cans').textContent = Math.round((state.perDay * 365) / state.perCan).toLocaleString('en-US');
+  $('lblCans').textContent = c.packs;
+  $('cans').textContent = vape ? money(s.perDay) : Math.round((s.perDay * 365) / s.perCan).toLocaleString('en-US');
   const total = $('year');
   total.innerHTML = '<span>' + money(Math.round(year)) + '</span>';
   total.classList.remove('tick'); void total.offsetWidth; total.classList.add('tick');
@@ -41,10 +62,19 @@ function render() {
 
 document.querySelectorAll('[data-step]').forEach((btn) => btn.addEventListener('click', () => {
   const [key, step] = btn.dataset.step.split(':');
-  const [min, max] = limits[key];
-  state[key] = Math.min(max, Math.max(min, Math.round((state[key] + Number(step)) * 100) / 100));
+  const vape = product === 'vape';
+  const [min, max] = vape ? VAPE_WEEKLY : limits[key];
+  const delta = Number(step) * (vape ? 5 : 1);
+  state[product][key] = Math.min(max, Math.max(min, Math.round((state[product][key] + delta) * 100) / 100));
   render();
 }));
+
+document.querySelectorAll('[data-product]').forEach((btn) => btn.addEventListener('click', () => {
+  product = btn.dataset.product;
+  document.querySelectorAll('[data-product]').forEach((b) => b.setAttribute('aria-checked', String(b === btn)));
+  render();
+}));
+
 
 const joinBtn = $('joinBtn'), joinNote = $('joinNote');
 function syncJoin() {
