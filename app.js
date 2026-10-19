@@ -28,6 +28,10 @@ function render() {
   const total = $('year');
   total.innerHTML = '<span>' + money(Math.round(year)) + '</span>';
   total.classList.remove('tick'); void total.offsetWidth; total.classList.add('tick');
+  // Reece reacts to the yearly number (same lines as the app's price step, src/lib/mascot.ts).
+  const yearly = money(Math.round(year));
+  $('react').dataset.mood = year >= 1000 ? 'shocked' : 'thinking';
+  $('reeceSay').textContent = year >= 1000 ? 'Wait. That’s ' + yearly + ' a year?' : 'That’s ' + yearly + ' a year. Let’s keep it.';
   const r = rankFor(year);
   $('rankNote').textContent = "That's rank " + String(r + 1).padStart(2, '0') + ', ' + RANKS[r][0] + '.';
   $('ladder').innerHTML = RANKS.map(([name, t], i) =>
