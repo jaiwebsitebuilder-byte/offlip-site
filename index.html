@@ -35,7 +35,7 @@
     * { box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
     body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--body); }
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
     a { color: inherit; }
 
     header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
@@ -44,9 +44,9 @@
 
     .hero > *, .two > * { min-width: 0; }
     .hero { display: grid; gap: 40px; padding: 32px 0 64px; align-items: center; }
-    @media (min-width: 880px) { .hero { grid-template-columns: 1.05fr 0.95fr; padding-top: 56px; } }
+    @media (min-width: 880px) { .hero { grid-template-columns: 1.2fr 0.8fr; padding: 40px 0 48px; } }
     .eyebrow { font: 600 12px var(--mono); letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
-    h1 { font: clamp(40px, 9vw, 72px)/1.02 var(--display); letter-spacing: -2px; margin: 0 0 20px; }
+    h1 { font: clamp(40px, min(8vw, 10vh), 76px)/1.02 var(--display); letter-spacing: -2px; margin: 0 0 20px; }
     h1 mark { background: linear-gradient(transparent 55%, var(--highlight) 55%, var(--highlight) 92%, transparent 92%); color: inherit; padding: 0 2px; }
     .lede { font-size: 18px; color: var(--muted); max-width: 30em; margin: 0 0 28px; }
     .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 14px; border: 0; background: var(--accent); color: #fff; font: 600 16px var(--body); text-decoration: none; cursor: pointer; }
@@ -132,6 +132,25 @@
     .join-row > div { flex: 1 1 280px; min-width: 0; }
     .join .plate { flex: none; width: 140px; height: 140px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; }
     .join .reece { width: 96px; height: auto; display: block; }
+
+    /* Laptop screens are short: keep the whole hero, receipt included, on the first screen
+       and let the next section peek in so it's clear the page goes on. */
+    @media (min-width: 880px) and (max-height: 900px) {
+      .hero { padding: 20px 0 32px; gap: 32px; }
+      .eyebrow { margin-bottom: 10px; }
+      h1 { margin-bottom: 14px; }
+      .lede { margin-bottom: 20px; }
+      .react { margin-bottom: 8px; }
+      .react .reece { width: 60px; }
+      .bubble { margin-bottom: 12px; }
+      .receipt { padding: 20px 22px 22px; }
+      .r-head { margin-bottom: 12px; }
+      .controls { gap: 8px; }
+      .stepper button { width: 36px; height: 34px; }
+      .line { margin: 6px 0; }
+      .rule { margin: 12px 0; }
+      .total { font-size: clamp(40px, 7vh, 60px); }
+    }
 
     @media (prefers-reduced-motion: no-preference) {
       .reece-body { transform-box: fill-box; transform-origin: 50% 100%; animation: breathe 3.2s ease-in-out infinite; }
