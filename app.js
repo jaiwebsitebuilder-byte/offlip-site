@@ -6,16 +6,17 @@ const WAITLIST_URL = 'https://fc2c06e4.sibforms.com/serve/MUIFABc9jkTiEAo8xBX48n
 const RANKS = [['Fresh Start', 0], ['Pocket Change', 5], ['Snack Fund', 20], ['Takeout Money', 50], ['Hundred Club', 100],
   ['Concert Ticket', 250], ['Weekend Away', 500], ['Four Figures', 1000], ['Flight Mode', 2500], ['Main Character Money', 5000]];
 // Same cost formula as the app: pouches and cigarettes are priced per unit, vapes by weekly spend.
-const DEFAULTS = { pouches: { perDay: 8, price: 5.5, perCan: 15 }, cigarettes: { perDay: 10, price: 9, perCan: 20 }, vape: { perDay: 25, price: 0, perCan: 0 } };
+const DEFAULTS = { pouches: { perDay: 8, price: 5.5, perCan: 15 }, cigarettes: { perDay: 10, price: 9, perCan: 20 }, vape: { perDay: 20, price: 0, perCan: 0 } };
 const COPY = {
   pouches: { perDay: 'Pouches a day', price: 'Price per can', perCan: 'Pouches per can', packs: 'Cans per year' },
   cigarettes: { perDay: 'Cigarettes a day', price: 'Price per pack', perCan: 'Cigarettes per pack', packs: 'Packs per year' },
-  vape: { perDay: 'Spent a week', price: '', perCan: '', packs: 'Per week' },
+  vape: { perDay: 'Spent a week', price: '', perCan: '', packs: 'Per week', control: 'weekly spend' },
 };
 const state = JSON.parse(JSON.stringify(DEFAULTS));
 let product = 'pouches';
-const limits = { perDay: [1, 60], price: [0.25, 30], perCan: [1, 40] };
-const VAPE_WEEKLY = [5, 300];
+// Same limits as the app's onboarding steppers.
+const limits = { perDay: [1, 60], price: [0.5, 50], perCan: [5, 100] };
+const VAPE_WEEKLY = [5, 500];
 const $ = (id) => document.getElementById(id);
 const money = (n, cents) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0 });
 
@@ -39,20 +40,20 @@ function render() {
   $('perCan').textContent = s.perCan;
   document.querySelectorAll('[data-step]').forEach((btn) => {
     const [key, step] = btn.dataset.step.split(':');
-    const label = key === 'perDay' ? c.perDay : key === 'price' ? c.price : c.perCan;
+    const label = key === 'perDay' ? c.control || c.perDay : key === 'price' ? c.price : c.perCan;
     btn.setAttribute('aria-label', (Number(step) < 0 ? 'Decrease ' : 'Increase ') + label.toLowerCase());
   });
   $('day').textContent = money(daily, true);
-  $('month').textContent = money(Math.round(daily * 30));
+  // A year over twelve, like the app's plan screen.
+  $('month').textContent = money(Math.round(year / 12));
   $('lblCans').textContent = c.packs;
   $('cans').textContent = vape ? money(s.perDay) : Math.round((s.perDay * 365) / s.perCan).toLocaleString('en-US');
   const total = $('year');
   total.innerHTML = '<span>' + money(Math.round(year)) + '</span>';
   total.classList.remove('tick'); void total.offsetWidth; total.classList.add('tick');
   // Reece reacts to the yearly number (same lines as the app's price step, src/lib/mascot.ts).
-  const yearly = money(Math.round(year));
   $('react').dataset.mood = year >= 1000 ? 'shocked' : 'thinking';
-  $('reeceSay').textContent = year >= 1000 ? 'Wait. That’s ' + yearly + ' a year?' : 'That’s ' + yearly + ' a year. Let’s keep it.';
+  $('reeceSay').textContent = year >= 1000 ? 'Wait. Seriously? Every year?' : 'Let’s keep every cent of it.';
   const r = rankFor(year);
   $('rankNote').textContent = "That's rank " + String(r + 1).padStart(2, '0') + ', ' + RANKS[r][0] + '.';
   $('ladder').innerHTML = RANKS.map(([name, t], i) =>
