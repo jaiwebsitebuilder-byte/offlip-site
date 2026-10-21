@@ -56,6 +56,7 @@
     .btn:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
     .btn[aria-disabled="true"], .btn:disabled { background: var(--raised); color: var(--muted); cursor: not-allowed; filter: none; }
     .fine { font-size: 13px; color: var(--muted); margin-top: 12px; }
+    .typehint { margin-top: 4px; }
 
     /* Receipt */
     .receipt { position: relative; background: var(--paper); padding: 28px 24px 30px; box-shadow: 0 18px 40px -22px rgba(22,21,15,.35); font-family: var(--mono); }
@@ -85,7 +86,11 @@
     .ctl label { color: var(--paper-muted); text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
     .stepper { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
     .stepper button { width: 40px; height: 40px; border: 0; background: var(--raised); font: 600 18px var(--mono); cursor: pointer; color: var(--text); }
-    .stepper output { min-width: 72px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .stepper output, .stepper .num { min-width: 72px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+    /* Tap the number to type it, as well as using − and +. */
+    .stepper .num { width: 80px; height: 40px; border: 0; background: transparent; color: var(--text); font: inherit; font-weight: 600; cursor: text; padding: 0 4px; }
+    .stepper .num:hover { background: var(--raised); }
+    .stepper .num:focus { outline: 2px solid var(--accent); outline-offset: -2px; background: #fff; }
 
     section { padding: 56px 0; border-top: 1px solid var(--border); }
     h2 { font: clamp(28px, 6vw, 40px)/1.1 var(--display); letter-spacing: -1px; margin: 0 0 28px; max-width: 18em; }
@@ -210,16 +215,17 @@
           <div class="controls">
             <div class="ctl">
               <label for="perDay" id="lblPerDay">Pouches a day</label>
-              <span class="stepper"><button type="button" data-step="perDay:-1" aria-label="Fewer pouches a day">−</button><output id="perDay" aria-live="polite">8</output><button type="button" data-step="perDay:1" aria-label="More pouches a day">+</button></span>
+              <span class="stepper"><button type="button" data-step="perDay:-1" aria-label="Fewer pouches a day">−</button><input id="perDay" class="num" type="text" inputmode="decimal" autocomplete="off" aria-label="Pouches a day" title="Tap to type" value="8"><button type="button" data-step="perDay:1" aria-label="More pouches a day">+</button></span>
             </div>
             <div class="ctl" id="rowPrice">
               <label for="price" id="lblPrice">Price per can</label>
-              <span class="stepper"><button type="button" data-step="price:-0.25" aria-label="Lower price">−</button><output id="price" aria-live="polite">$5.50</output><button type="button" data-step="price:0.25" aria-label="Higher price">+</button></span>
+              <span class="stepper"><button type="button" data-step="price:-0.25" aria-label="Lower price">−</button><input id="price" class="num" type="text" inputmode="decimal" autocomplete="off" aria-label="Price per can" title="Tap to type" value="$5.50"><button type="button" data-step="price:0.25" aria-label="Higher price">+</button></span>
             </div>
             <div class="ctl" id="rowPer">
               <label for="perCan" id="lblPerCan">Pouches per can</label>
-              <span class="stepper"><button type="button" data-step="perCan:-1" aria-label="Fewer pouches per can">−</button><output id="perCan" aria-live="polite">15</output><button type="button" data-step="perCan:1" aria-label="More pouches per can">+</button></span>
+              <span class="stepper"><button type="button" data-step="perCan:-1" aria-label="Fewer pouches per can">−</button><input id="perCan" class="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Pouches per can" title="Tap to type" value="15"><button type="button" data-step="perCan:1" aria-label="More pouches per can">+</button></span>
             </div>
+            <p class="fine typehint">Tap any number to type your own.</p>
           </div>
           <hr class="rule" />
           <div class="line"><span class="lbl">Per day</span><span class="dots"></span><span class="val" id="day">$2.93</span></div>
@@ -292,6 +298,6 @@
     </footer>
   </div>
 
-  <script src="app.js?v=2026-10-21" defer></script>
+  <script src="app.js?v=2026-10-21b" defer></script>
 </body>
 </html>

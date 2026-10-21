@@ -35,9 +35,15 @@ function render() {
   $('lblPerCan').textContent = c.perCan;
   $('rowPrice').hidden = vape;
   $('rowPer').hidden = vape;
-  $('perDay').textContent = vape ? money(s.perDay) : s.perDay;
-  $('price').textContent = money(s.price, true);
-  $('perCan').textContent = s.perCan;
+  // Fields being typed in keep what the person typed; the rest show the formatted value.
+  const show = (id, text, label) => {
+    const el = $(id);
+    if (document.activeElement !== el) el.value = text;
+    if (label) el.setAttribute('aria-label', label);
+  };
+  show('perDay', vape ? money(s.perDay) : String(s.perDay), c.perDay);
+  show('price', money(s.price, true), c.price);
+  show('perCan', String(s.perCan), c.perCan);
   document.querySelectorAll('[data-step]').forEach((btn) => {
     const [key, step] = btn.dataset.step.split(':');
     const label = key === 'perDay' ? c.control || c.perDay : key === 'price' ? c.price : c.perCan;
@@ -69,6 +75,36 @@ document.querySelectorAll('[data-step]').forEach((btn) => btn.addEventListener('
   state[product][key] = Math.min(max, Math.max(min, Math.round((state[product][key] + delta) * 100) / 100));
   render();
 }));
+
+// Typed numbers: same rules as the app (a comma before three digits is a thousands separator).
+function parseTyped(raw) {
+  let t = String(raw).replace(/[$\s]/g, '');
+  if (t.includes('.') || /,\d{3}(,\d{3})*$/.test(t)) t = t.replace(/,/g, '');
+  else t = t.replace(',', '.');
+  if (!/^\d*\.?\d*$/.test(t) || !/\d/.test(t)) return null;
+  const n = Number(t);
+  return Number.isFinite(n) ? n : null;
+}
+function applyTyped(key, commit) {
+  const el = $(key);
+  const n = parseTyped(el.value);
+  if (n !== null) {
+    const vape = product === 'vape';
+    const [min, max] = vape && key === 'perDay' ? VAPE_WEEKLY : limits[key];
+    const rounded = key === 'price' || (vape && key === 'perDay') ? Math.round(n * 100) / 100 : Math.round(n);
+    state[product][key] = Math.min(max, Math.max(min, rounded));
+  }
+  if (commit) el.blur();
+  render();
+}
+['perDay', 'price', 'perCan'].forEach((key) => {
+  const el = $(key);
+  el.addEventListener('focus', () => el.select());
+  el.addEventListener('input', () => applyTyped(key, false));
+  el.addEventListener('change', () => applyTyped(key, false));
+  el.addEventListener('blur', () => render());
+  el.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyTyped(key, true); });
+});
 
 document.querySelectorAll('[data-product]').forEach((btn) => btn.addEventListener('click', () => {
   product = btn.dataset.product;
