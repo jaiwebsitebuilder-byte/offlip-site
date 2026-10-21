@@ -1,0 +1,41 @@
+/* The waitlist page: same paper, ink and lime as the rest of the site. */
+.hero { max-width: 520px; }
+.talk { display: flex; align-items: center; gap: 12px; margin-top: 32px; }
+.talk .reece { width: 76px; height: auto; flex: none; display: block; }
+.bubble { position: relative; background: var(--paper); border: 1.5px solid var(--text); border-radius: 14px; padding: 10px 14px; margin: 0; font-weight: 600; color: var(--text); }
+.bubble::before { content: ''; position: absolute; left: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px; background: var(--paper); border-left: 1.5px solid var(--text); border-bottom: 1.5px solid var(--text); transform: rotate(45deg); }
+.eyebrow { margin-top: 24px; }
+.lede { font-size: 17px; color: #2D2B24; margin: 0 0 24px; }
+
+/* The form sits on a receipt, like the rest of Offlip. */
+.receipt { position: relative; background: var(--paper); padding: 24px 22px 28px; margin: 10px 0; box-shadow: 0 14px 30px -22px rgba(22,21,15,.45); display: grid; gap: 10px; }
+.receipt::before, .receipt::after { content: ''; position: absolute; left: 0; right: 0; height: 10px;
+  background: radial-gradient(circle at 6px 0, transparent 5px, var(--paper) 5.5px) repeat-x; background-size: 12px 10px; }
+.receipt::before { top: -10px; transform: scaleY(-1); }
+.receipt::after { bottom: -10px; }
+.receipt .r-head { margin-bottom: 4px; }
+.field { font: 600 14px 'Inter', system-ui, sans-serif; }
+.input { width: 100%; min-height: 52px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 12px; background: #fff; font: 500 17px 'Inter', system-ui, sans-serif; color: var(--text); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(11,143,77,.15); }
+.check { display: flex; align-items: center; gap: 10px; min-height: 44px; font-weight: 500; cursor: pointer; }
+.check input { width: 22px; height: 22px; accent-color: var(--text); }
+.trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.error { margin: 0; color: #D93F45; font-weight: 600; font-size: 14px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 26px; border-radius: 14px; border: 0; background: var(--accent); color: #fff; font: 600 17px 'Inter', system-ui, sans-serif; text-decoration: none; cursor: pointer; }
+.btn:hover { filter: brightness(1.06); }
+.btn[disabled] { opacity: .6; cursor: default; }
+.receipt .btn { width: 100%; margin-top: 6px; }
+.fine { font-size: 13px; color: var(--muted); margin: 0; }
+.done h1 { background: linear-gradient(transparent 55%, var(--highlight) 55%); display: inline; }
+.done .lede { margin-top: 20px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .reece-body { transform-box: fill-box; transform-origin: 50% 100%; animation: breathe 3.2s ease-in-out infinite; }
+  .reece-eyes { transform-box: fill-box; transform-origin: center; animation: blink 4.6s infinite; }
+  .reece-arm { transform-box: view-box; transform-origin: 150px 112px; animation: wave 2.4s ease-in-out infinite; }
+  .done .reece-body { animation: hop 1.2s ease-out 1, breathe 3.2s ease-in-out 1.2s infinite; }
+  @keyframes breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+  @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+  @keyframes wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30%, 50% { transform: rotate(14deg); } 20%, 40% { transform: rotate(-14deg); } }
+  @keyframes hop { 0%, 100% { transform: translateY(0); } 20% { transform: translateY(-14px); } 40% { transform: translateY(0); } 55% { transform: translateY(-7px); } 70% { transform: translateY(0); } }
+}

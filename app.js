@@ -118,7 +118,8 @@ function syncJoin() {
   // Only ever link to a real https address (never javascript: or a typo). The form itself asks 18+.
   const ready = /^https:\/\/[^\s"'<>]+$/.test(WAITLIST_URL);
   joinBtn.setAttribute('aria-disabled', ready ? 'false' : 'true');
-  joinBtn.href = ready ? WAITLIST_URL : '#join';
+  // Our own signup page (it sends to the same Brevo list), styled like the rest of the site.
+  joinBtn.href = ready ? 'join.html' : '#join';
   if (!ready) joinNote.textContent = 'The waitlist opens soon.';
 }
 joinBtn.addEventListener('click', (e) => { if (joinBtn.getAttribute('aria-disabled') === 'true') e.preventDefault(); });

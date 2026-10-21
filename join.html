@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- Signups go straight to Brevo (our email list); nothing else leaves the page. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; script-src 'self'; connect-src https://fc2c06e4.sibforms.com; base-uri 'none'; form-action https://fc2c06e4.sibforms.com" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Join the Offlip waitlist</title>
+  <meta name="description" content="Get Offlip first. One email on launch day, no spam." />
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="legal.css" />
+  <link rel="stylesheet" href="join.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header><a class="wordmark" href="index.html">offlip</a><a class="nav" href="index.html">Home</a></header>
+    <main>
+      <div class="hero" id="formView">
+        <div class="talk">
+          <!--reece:wave--><svg class="reece reece-wave"  viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="reece-body"><path d="M50 118 q -18 6 -14 30" stroke="#16150F" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 22 H150 V188 L141.66666666666666 198 L133.33333333333334 188 L125.00000000000001 198 L116.66666666666666 188 L108.33333333333333 198 L100 188 L91.66666666666667 198 L83.33333333333333 188 L75 198 L66.66666666666666 188 L58.33333333333332 198 L50 188 Z" fill="#FFFFFF"/><rect x="50" y="22" width="100" height="14" fill="#0B8F4D"/><path d="M50 22 H150 V188 L141.66666666666666 198 L133.33333333333334 188 L125.00000000000001 198 L116.66666666666666 188 L108.33333333333333 198 L100 188 L91.66666666666667 198 L83.33333333333333 188 L75 198 L66.66666666666666 188 L58.33333333333332 198 L50 188 Z" stroke="#16150F" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="66" y="148" width="68" height="8" rx="4" fill="#E2DCCD"/><rect x="66" y="164" width="40" height="8" rx="4" fill="#E2DCCD"/><text x="136" y="173" text-anchor="end" font-size="17" font-family="Archivo Black, sans-serif" fill="#0B8F4D">$0</text><g fill="#D93F45" fill-opacity="0.25"><circle cx="62" cy="108" r="8"/><circle cx="138" cy="108" r="8"/></g><path d="M82 108 Q100 134 118 108 Z" fill="#16150F" stroke="#16150F" stroke-width="4" stroke-linejoin="round"/><path d="M91 120 Q100 128 109 120 Q100 116 91 120 Z" fill="#D93F45"/><path class="reece-arm" d="M150 112 q 22 -16 16 -46" stroke="#16150F" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g class="reece-eyes"><circle cx="78" cy="86" r="9" fill="#16150F"/><circle cx="81" cy="83" r="3" fill="#FFFFFF"/><circle cx="122" cy="86" r="9" fill="#16150F"/><circle cx="125" cy="83" r="3" fill="#FFFFFF"/></g></g></svg><!--/reece-->
+          <p class="bubble">Ooh, you’re early. I like that.</p>
+        </div>
+        <p class="eyebrow">Waitlist</p>
+        <h1>Get Offlip first.</h1>
+        <p class="lede">We let people in by waves, and earlier spots hear first. One email on launch day, the odd update, never spam. Leave any time.</p>
+
+        <form class="receipt" id="joinForm" method="POST" action="https://fc2c06e4.sibforms.com/serve/MUIFABc9jkTiEAo8xBX48nmHnb0_x6LXKOb6LF8urFApCm8b_-ikc8AUyVmmlLUtTw3gH6LCkSkqYy1dZGY0VBXAUdayA4YTBVgbRt1UNRwsMa5OcNJObkDw2uK4iDjxY7Whkx_bFpT3nh4P89mCnvtuZAW2P-lbMgP-QNfukcTFCm5uyQnvWINUOar8dtlHKw1DJzOr2KdzLYttGQ==" novalidate>
+          <p class="r-head">Your spot</p>
+          <label class="field" for="EMAIL">Email</label>
+          <input class="input" type="email" id="EMAIL" name="EMAIL" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
+          <label class="check">
+            <input type="checkbox" id="AGE_18_PLUS" name="AGE_18_PLUS" value="1" required />
+            <span>I’m 18 or older</span>
+          </label>
+          <!-- Left empty by people; bots fill it in. -->
+          <input class="trap" type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input type="hidden" name="locale" value="en" />
+          <p class="error" id="joinError" role="alert" hidden></p>
+          <button class="btn" type="submit" id="joinSubmit">Save my spot</button>
+          <p class="fine">Takes 10 seconds. We only use your email to tell you about Offlip. <a href="privacy.html">Privacy</a></p>
+        </form>
+      </div>
+
+      <div class="hero done" id="doneView" hidden>
+        <div class="talk">
+          <!--reece:cheer--><svg class="reece reece-cheer"  viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="reece-body"><path d="M50 112 q -22 -16 -16 -46" stroke="#16150F" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M150 112 q 22 -16 16 -46" stroke="#16150F" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 22 H150 V188 L141.66666666666666 198 L133.33333333333334 188 L125.00000000000001 198 L116.66666666666666 188 L108.33333333333333 198 L100 188 L91.66666666666667 198 L83.33333333333333 188 L75 198 L66.66666666666666 188 L58.33333333333332 198 L50 188 Z" fill="#FFFFFF"/><rect x="50" y="22" width="100" height="14" fill="#0B8F4D"/><path d="M50 22 H150 V188 L141.66666666666666 198 L133.33333333333334 188 L125.00000000000001 198 L116.66666666666666 188 L108.33333333333333 198 L100 188 L91.66666666666667 198 L83.33333333333333 188 L75 198 L66.66666666666666 188 L58.33333333333332 198 L50 188 Z" stroke="#16150F" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="66" y="148" width="68" height="8" rx="4" fill="#E2DCCD"/><rect x="66" y="164" width="40" height="8" rx="4" fill="#E2DCCD"/><text x="136" y="173" text-anchor="end" font-size="17" font-family="Archivo Black, sans-serif" fill="#0B8F4D">$0</text><g fill="#D93F45" fill-opacity="0.25"><circle cx="62" cy="108" r="8"/><circle cx="138" cy="108" r="8"/></g><path d="M82 108 Q100 134 118 108 Z" fill="#16150F" stroke="#16150F" stroke-width="4" stroke-linejoin="round"/><path d="M91 120 Q100 128 109 120 Q100 116 91 120 Z" fill="#D93F45"/><path d="M24 29 L27.08 36.92 L35 40 L27.08 43.08 L24 51 L20.92 43.08 L13 40 L20.92 36.92 Z" fill="#D7FF3C" stroke="#16150F" stroke-width="2" stroke-linejoin="round"/><path d="M178 25 L180.52 31.48 L187 34 L180.52 36.52 L178 43 L175.48 36.52 L169 34 L175.48 31.48 Z" fill="#0B8F4D" stroke="#16150F" stroke-width="2" stroke-linejoin="round"/><path d="M18 142 L20.240000000000002 147.76 L26 150 L20.240000000000002 152.24 L18 158 L15.76 152.24 L10 150 L15.76 147.76 Z" fill="#0B8F4D" stroke="#16150F" stroke-width="2" stroke-linejoin="round"/><path d="M184 130 L186.8 137.2 L194 140 L186.8 142.8 L184 150 L181.2 142.8 L174 140 L181.2 137.2 Z" fill="#D7FF3C" stroke="#16150F" stroke-width="2" stroke-linejoin="round"/><g class="reece-eyes"><path d="M68 90 Q78 76 88 90" stroke="#16150F" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M112 90 Q122 76 132 90" stroke="#16150F" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg><!--/reece-->
+          <p class="bubble">You’re in! I’ll save you a receipt.</p>
+        </div>
+        <p class="eyebrow">You’re on the list</p>
+        <h1>See you on launch day.</h1>
+        <p class="lede">Keep an eye on your inbox. Until then, see what your habit costs on the <a href="index.html#react">calculator</a>.</p>
+        <a class="btn" href="index.html">Back to Offlip</a>
+      </div>
+    </main>
+    <footer><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · For adults 18+. Not medical advice.</footer>
+  </div>
+  <script src="join.js" defer></script>
+</body>
+</html>
