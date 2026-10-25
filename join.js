@@ -18,7 +18,7 @@ form.addEventListener('submit', async (e) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) return showError('That email doesn’t look right. Check it and try again.');
   if (!adult.checked) return showError('Offlip is for adults. Tick the box to confirm you’re 18 or older.');
   submit.disabled = true;
-  submit.textContent = 'Saving your spot…';
+  submit.textContent = 'Adding you…';
   try {
     const res = await fetch(form.action + '?isAjax=1', { method: 'POST', body: new FormData(form) });
     const data = await res.json().catch(() => ({}));
@@ -27,8 +27,8 @@ form.addEventListener('submit', async (e) => {
     document.getElementById('doneView').hidden = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch {
-    showError('Couldn’t save your spot just now. Check your connection and try again.');
+    showError('Couldn’t add you just now. Check your connection and try again.');
     submit.disabled = false;
-    submit.textContent = 'Save my spot';
+    submit.textContent = 'Email me when it’s live';
   }
 });

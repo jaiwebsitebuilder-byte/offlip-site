@@ -1,6 +1,5 @@
 'use strict';
-// Brevo signup form (email + required 18+ checkbox, no confirmation email). Empty = button disabled.
-const WAITLIST_URL = 'https://fc2c06e4.sibforms.com/serve/MUIFABc9jkTiEAo8xBX48nmHnb0_x6LXKOb6LF8urFApCm8b_-ikc8AUyVmmlLUtTw3gH6LCkSkqYy1dZGY0VBXAUdayA4YTBVgbRt1UNRwsMa5OcNJObkDw2uK4iDjxY7Whkx_bFpT3nh4P89mCnvtuZAW2P-lbMgP-QNfukcTFCm5uyQnvWINUOar8dtlHKw1DJzOr2KdzLYttGQ==';
+// The waitlist button links straight to join.html (which posts to Brevo), so it works without this script.
 
 // Same ladder and cost formula as the app (src/data/ranks.ts, src/lib/plan.ts).
 const RANKS = [['Fresh Start', 0], ['Pocket Change', 5], ['Snack Fund', 20], ['Takeout Money', 50], ['Hundred Club', 100],
@@ -112,20 +111,7 @@ document.querySelectorAll('[data-product]').forEach((btn) => btn.addEventListene
   render();
 }));
 
-
-const joinBtn = $('joinBtn'), joinNote = $('joinNote');
-function syncJoin() {
-  // Only ever link to a real https address (never javascript: or a typo). The form itself asks 18+.
-  const ready = /^https:\/\/[^\s"'<>]+$/.test(WAITLIST_URL);
-  joinBtn.setAttribute('aria-disabled', ready ? 'false' : 'true');
-  // Our own signup page (it sends to the same Brevo list), styled like the rest of the site.
-  joinBtn.href = ready ? 'join.html' : '#join';
-  if (!ready) joinNote.textContent = 'The waitlist opens soon.';
-}
-joinBtn.addEventListener('click', (e) => { if (joinBtn.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
-
 const now = new Date();
 $('today').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 $('year-copy').textContent = now.getFullYear();
 render();
-syncJoin();

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jaiwebsitebuilder-byte.github.io/offlip-site/sitemap.xml
